@@ -1,8 +1,7 @@
 from .builconfigurations import BuildConfiguration
-from .app import Controller
+from .app_CLI import Controller
 from .orders import BuyOrder, SellOrder
 from random import randint
-from .consumer import Consumer
 
 
 if __name__ == '__main__':
@@ -54,17 +53,16 @@ if __name__ == '__main__':
                 if status:
                     sell_order = SellOrder(trade_to_close[0], sell_price=randint(20, 100), quantity=trade_to_close[1])
                     order_status, order_dict, profit = controller.close_position(sell_order, trade_to_close[2])
+                    if order_status:
+                        # show information after the order execution
+                        print('Trade successfully executed.')
+                        print()
+                        print(f'Profit: {profit}')
+                        print('An order with the following characteristics has been executed:')
+                        for key in order_dict.keys():
+                            print(' - ' + key + ': ', end='')
+                            print(str(order_dict[key]))
                     print()
 
                 else:
                     print('Wrong ID')
-
-                if order_status:
-                    # show information after the order execution
-                    print('Trade successfully executed.')
-                    print()
-                    print(f'Profit: {profit}')
-                    print('An order with the following characteristics has been executed:')
-                    for key in order_dict.keys():
-                        print(' - ' + key + ': ', end='')
-                        print(str(order_dict[key]))
