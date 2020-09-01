@@ -4,6 +4,7 @@ from .orders import OrderComponents, OrderTypes
 from .trade import TradeComponents
 from .database_controller import DatabaseController
 from .config import ConfigFileSection
+from .consumer import Consumer
 
 
 class Controller:
@@ -21,6 +22,9 @@ class Controller:
 
         # Trader for this session
         self.trader = Trader(config_obj[ConfigFileSection.trader.name])
+
+        # Kafka data consumer
+        self.consumer = Consumer(config_obj[ConfigFileSection.consumer.name])
 
         self.status = False
         print('Your trader ID para esta sesión is:', self.trader.id_trader)

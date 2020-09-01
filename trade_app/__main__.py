@@ -2,12 +2,15 @@ from .builconfigurations import BuildConfiguration
 from .app_CLI import Controller
 from .orders import BuyOrder, SellOrder
 from random import randint
+import threading
 
 
 if __name__ == '__main__':
     configuration_obj = BuildConfiguration()
     controller = Controller(configuration_obj.config_obj)
     controller.run()
+    thread_consumer = threading.Thread(name='Blocking read Threat', target=controller.consumer.star_read)
+    thread_consumer.start()
 
     stocks = ['NFLX', 'SPY']
 
