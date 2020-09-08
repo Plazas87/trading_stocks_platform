@@ -5,12 +5,13 @@ import pickle
 
 
 class Producer:
-    def __init__(self, topic):
+    def __init__(self, file_name, topic, freq):
         self.topic = topic
+        self.freq = freq if isinstance(freq, int) else int(freq)
         self.producer = KafkaProducer(bootstrap_servers='localhost:9092',
                                       value_serializer=lambda x: pickle.dumps(x))
 
-        self.reader = Reader('NFLX_2019.csv')
+        self.reader = Reader(file_name)
 
     def star_write(self):
         message_count = 0
@@ -20,7 +21,7 @@ class Producer:
             self.producer.send(self.topic, value=dict_data)
             print(f'Message {message_count + 1}: {dict_data}')
             message_count += 1
-            time.sleep(2)
+            time.sleep(self.freq)
 
 
 if __name__ == '__main__':
