@@ -1,4 +1,4 @@
-from .app import Producer
+from .producer import Producer
 import sys
 
 

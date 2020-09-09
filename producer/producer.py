@@ -1,7 +1,8 @@
 from kafka import KafkaProducer
 import time
-from .reader import Reader
 import pickle
+
+from .reader import Reader
 
 
 class Producer:
@@ -14,13 +15,10 @@ class Producer:
         self.reader = Reader(file_name)
 
     def star_write(self):
-        message_count = 0
-        for index in range(len(self.reader.data)):
-            data = self.reader.data.iloc[index, :]
-            dict_data = self.reader.row_to_dict(data)
+        for index, value in self.reader.data.iterrows():
+            dict_data = dict(value)
             self.producer.send(self.topic, value=dict_data)
-            print(f'Message {message_count + 1}: {dict_data}')
-            message_count += 1
+            print(f'Message {index + 1}: {dict_data}')
             time.sleep(self.freq)
 
 
