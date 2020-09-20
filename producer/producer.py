@@ -1,6 +1,7 @@
 from kafka import KafkaProducer
 import time
 import pickle
+import json
 
 from .reader import Reader
 
@@ -10,7 +11,7 @@ class Producer:
         self.topic = topic
         self.freq = freq if isinstance(freq, int) else int(freq)
         self.producer = KafkaProducer(bootstrap_servers='localhost:9092',
-                                      value_serializer=lambda x: pickle.dumps(x))
+                                      value_serializer=lambda x: json.dumps(x).encode('utf-8'))
 
         self.reader = Reader(file_name)
 
